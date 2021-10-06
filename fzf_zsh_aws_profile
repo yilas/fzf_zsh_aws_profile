@@ -1,7 +1,7 @@
 # Source this file in your .zshrc
 export awsconfig=~/.aws/config
-which aws >/dev/null 2>&1 || { echo "aws cli not installed.  Aborting." >&2; exit 1; }
-which fzf >/dev/null 2>&1 || { echo "fzf not installed.  Aborting." >&2; exit 1; }
+which aws >/dev/null 2>&1 || { echo "Warning: aws cli not installed." >&2; }
+which fzf >/dev/null 2>&1 || { echo "Warning: fzf not installed." >&2; }
 
 
 # modified from __fzf_history__ at https://github.com/junegunn/fzf/blob/master/shell/key-bindings.bash
