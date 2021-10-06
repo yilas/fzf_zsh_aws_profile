@@ -1,0 +1,24 @@
+# Source this file in your .zshrc
+export awsconfig=~/.aws/config
+which aws >/dev/null 2>&1 || { echo "aws cli not installed.  Aborting." >&2; exit 1; }
+which fzf >/dev/null 2>&1 || { echo "fzf not installed.  Aborting." >&2; exit 1; }
+
+
+# modified from __fzf_history__ at https://github.com/junegunn/fzf/blob/master/shell/key-bindings.bash
+# objective:
+#   - Ctrl-b bound to this function searches aws profile with fzf
+#   - selecting an item returns the profile to the prompt in edit mode
+#   - similar to Ctrl-r doing a history search with fzf
+#   - $ Ctrl-b->pick profile->type aws command->[enter]
+fzf_aws_prof() {
+  local output
+  output=$(
+    grep -e '^.profile' $awsconfig | awk -F"[][]" '{print $2}' |while read a p ; do echo "AWS_PROFILE=$p" ; done |
+    fzf +s --tac
+  ) || return
+ BUFFER="$output "; zle end-of-line; 
+}
+
+# Create a ZSH "Widget" and bind to key (CTRL+B here)
+zle -N awsprof fzf_aws_prof
+bindkey '^b' awsprof
