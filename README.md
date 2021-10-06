@@ -1,5 +1,5 @@
 # fzf_zsh_aws_profile
-fzf-based AWS Profile setter for zshell.
+fzf-based AWS Profile setter for zshell. Binds to a key (CTRL+B), allowing you to quickly switch between AWS profiles. Works great for situations where you have lots of AWS profiles defined (e.g. SSO or role-base environments).
 
 ## Install
 ```bash
