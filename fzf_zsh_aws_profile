@@ -1,8 +1,7 @@
 # Source this file in your .zshrc
 export awsconfig=~/.aws/config
-which aws >/dev/null 2>&1 || { echo "Warning: aws cli not installed." >&2; }
-which fzf >/dev/null 2>&1 || { echo "Warning: fzf not installed." >&2; }
-
+which aws >/dev/null 2>&1 || { echo "Warning: aws cli not installed." >&2; exit 0 }
+which fzf >/dev/null 2>&1 || { echo "Warning: fzf not installed." >&2; exit 0 }
 
 # modified from __fzf_history__ at https://github.com/junegunn/fzf/blob/master/shell/key-bindings.bash
 # objective:
@@ -11,12 +10,8 @@ which fzf >/dev/null 2>&1 || { echo "Warning: fzf not installed." >&2; }
 #   - similar to Ctrl-r doing a history search with fzf
 #   - $ Ctrl-b->pick profile->type aws command->[enter]
 fzf_aws_prof() {
-  local output
-  output=$(
-    grep -e '^.profile' $awsconfig | awk -F"[][]" '{print $2}' |while read a p ; do echo "AWS_PROFILE=$p" ; done |
-    fzf +s --tac
-  ) || return
- BUFFER="$output "; zle end-of-line; 
+  AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | fzf)
+  echo -n "export AWS_PROFILE=$AWS_PROFILE"
 }
 
 # Create a ZSH "Widget" and bind to key (CTRL+B here)
