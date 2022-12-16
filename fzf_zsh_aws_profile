@@ -10,7 +10,7 @@ which fzf >/dev/null 2>&1 || { echo "Warning: fzf not installed." >&2; exit 0 }
 #   - similar to Ctrl-r doing a history search with fzf
 #   - $ Ctrl-b->pick profile->type aws command->[enter]
 fzf_aws_prof() {
-  AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | fzf)
+  AWS_PROFILE=$(sed -n "s/\[profile \(.*\)\]/\1/gp" ~/.aws/config | sort -f | fzf)
   if [ -z "$AWS_PROFILE" ]; then
     echo -n "unset AWS_PROFILE"
   else
